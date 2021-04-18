@@ -40,8 +40,8 @@ today <- as.numeric(as.POSIXct(Sys.time()))
 week_ago <- today-604800
 # For all request types, get requests from the last week from the PublicStuff API.
 recent_requests <- lapply(city_request_types$request_type_id,
-                       function(x) jsonlite::fromJSON(paste0("https://www.publicstuff.com/api/2.1/requests_list?request_type_id=",
-                                                        x,"&after_timestamp=",week_ago,"&limit=100")))
+                          function(x) jsonlite::fromJSON(paste0("https://www.publicstuff.com/api/2.1/requests_list?request_type_id=",
+                                                                x,"&after_timestamp=",week_ago,"&limit=100")))
 # Pull out exactly the data we need
 recent_requests <- lapply(recent_requests, function(x) x$response$requests$request)
 # Drop null list items
@@ -50,7 +50,7 @@ recent_requests <- Filter(Negate(is.null), recent_requests)
 drop_image <- function(x){
     if(class(x$primary_attachment) == "data.frame") {
         x$primary_attachment <- NULL
-        }
+    }
     return(x)
 }
 recent_requests <- lapply(recent_requests, drop_image)
@@ -158,7 +158,7 @@ if(nrow(new_requests) > 0){
         } else {
             # Post without image
             try(post_status(mastodon_token, post_text))
-            }
+        }
 
         # After tooting, mark what has been posted.
         # https://cran.r-project.org/web/packages/RSQLite/vignettes/RSQLite.html
@@ -166,8 +166,8 @@ if(nrow(new_requests) > 0){
 
         # Update posted column as needed
         dbExecute(mydb, "UPDATE requests SET posted = :posted where id = :id",
-                           params=data.frame(posted=TRUE,
-                                                id=request$id))
+                  params=data.frame(posted=TRUE,
+                                    id=request$id))
     }
     # Get out of the database
     dbDisconnect(mydb)
