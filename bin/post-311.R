@@ -154,10 +154,10 @@ if(nrow(new_requests) > 0){
             # Get the image
             download.file(gsub("small","large",request$image_thumbnail), 'temp.jpg', mode="wb")
             # Post
-            post_media(mastodon_token, post_text, file = "temp.jpg")
+            try(post_media(mastodon_token, post_text, file = "temp.jpg"))
         } else {
             # Post without image
-            post_status(mastodon_token, post_text)
+            try(post_status(mastodon_token, post_text))
             }
 
         # After tooting, mark what has been posted.
