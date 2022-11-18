@@ -4,3 +4,4 @@
 .Ruserdata
 auth.ini
 temp.jpg
+*.secret
